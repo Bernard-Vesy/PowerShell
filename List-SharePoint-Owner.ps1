@@ -1,23 +1,6 @@
-#Installer  le module SharePoint.PowerShell
-Install-Module -Name Microsoft.Online.SharePoint.PowerShell
-# Si la version est déjà installée exécuter  la commande ci-dessous 
 
-Install-Module -Name Microsoft.Online.SharePoint.PowerShell -Force
-
-#Récupérer les commandes disponibles dans ce module
-Get-Command -Module Microsoft.Online.SharePoint.PowerShell
-
-#Install Module for PowerShellOnline ----------------------------------
-Install-Module SharePointPnPPowerShellOnline
-
-Install-Module SharePointPnPPowerShellOnline -SkipPublisherCheck -AllowClobber.
-
-Install-Module AzureAD
-
-
----------------------------------------------------------------------------------
 #Install-Module AzureAD
-$CSVPath = "E:\tobedel\SiteOwnersv2.xlsx"
+$CSVPath = "E:\tobedel\Sites - Owners.xlsx"
 $line = 0
 
 Connect-SPOService -Url https://lemo-admin.sharepoint.com
@@ -33,7 +16,15 @@ $sitelist = Get-SPOSite -Limit ALL
  
 $siteownerlist = foreach($site in $sitelist){
     $ownerlist = if($site.Template -like '*group*'){
-        Get-AzureADGroupOwner -ObjectId $site.GroupId | Select-Object -ExpandProperty UserPrincipalName
+
+        try {
+            Get-AzureADGroupOwner -ObjectId $site.GroupId | Select-Object -ExpandProperty UserPrincipalName    
+        }
+        catch {
+            <#Do this if a terminating exception happens#>
+            Write-Host "ERROR - " $site.Url  "  -  " $site.Title
+        }
+        
     }
     else{
         $line = $line + 1
