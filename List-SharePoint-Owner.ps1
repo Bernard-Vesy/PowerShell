@@ -1,4 +1,21 @@
+#Installer  le module SharePoint.PowerShell
+Install-Module -Name Microsoft.Online.SharePoint.PowerShell
+# Si la version est déjà installée exécuter  la commande ci-dessous 
 
+Install-Module -Name Microsoft.Online.SharePoint.PowerShell -Force
+
+#Récupérer les commandes disponibles dans ce module
+Get-Command -Module Microsoft.Online.SharePoint.PowerShell
+
+#Install Module for PowerShellOnline ----------------------------------
+Install-Module SharePointPnPPowerShellOnline
+
+Install-Module SharePointPnPPowerShellOnline -SkipPublisherCheck -AllowClobber.
+
+Install-Module AzureAD
+
+
+---------------------------------------------------------------------------------
 #Install-Module AzureAD
 $CSVPath = "E:\tobedel\SiteOwnersv2.xlsx"
 $line = 0
